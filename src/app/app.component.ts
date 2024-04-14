@@ -15,23 +15,22 @@ export class AppComponent {
     title: ['', [Validators.required]]
   });
   submitted = false;
-  //Add user form actions
+  calendarOptions!: CalendarOptions;
+
 
   get f() { return this.addEventForm.controls; }
 
- onSubmit() {
+  constructor(private fb: FormBuilder){}
 
-  this.submitted = true;
-  // stop here if form is invalid and reset the validations
-  this.addEventForm.controls['title'].setValidators([Validators.required]);
-  this.addEventForm.controls['title'].updateValueAndValidity();
-  if (this.addEventForm.invalid) {
-      return;
+
+  onSubmit() {
+    this.submitted = true;
+    this.addEventForm.controls['title'].setValidators([Validators.required]);
+    this.addEventForm.controls['title'].updateValueAndValidity();
+    if (this.addEventForm.invalid) {
+        return;
+    }
   }
-}
-constructor(private fb: FormBuilder){}
-  title = 'angularadmintemplates';
-  calendarOptions!: CalendarOptions;
 
   ngOnInit() {
     this.calendarOptions = {
@@ -42,18 +41,13 @@ constructor(private fb: FormBuilder){}
         { title: 'event 2', date: '2020-06-30' }
       ]
     };
-    //Add User form validations
   }
-//Show Modal with Forn on dayClick Event
+
+  //Show Modal with Forn on dayClick Event
   handleDateClick(arg: any) {
-    // $("#myModal").modal("show");
-    // $(".modal-title, .eventstarttitle").text("");
-    // $(".modal-title").text("Add Event at : "+arg.dateStr);
-    // $(".eventstarttitle").text(arg.dateStr);
     console.log('args = ', arg);
-
-
   }
+
   //Hide Modal PopUp and clear the form validations
   hideForm(){
     this.addEventForm.patchValue({ title : ""});
