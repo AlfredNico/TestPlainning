@@ -8,6 +8,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpUrlInterceptor } from './interceptors/http-url.interceptor';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -23,9 +25,16 @@ FullCalendarModule.registerPlugins([
     BrowserModule,
     AppRoutingModule,
     FullCalendarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpUrlInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,13 @@
+.fc-daygrid-event-harness:hover::after {
+    content: attr(data-description);
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 9999;
+  }
