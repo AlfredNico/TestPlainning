@@ -23,6 +23,19 @@ export class AppComponent {
   constructor(private fb: FormBuilder){}
 
 
+  ngOnInit() {
+    this.calendarOptions = {
+      initialView: 'dayGridMonth',
+      dateClick: this.handleDateClick.bind(this),
+      eventClick: this.handleEventClick.bind(this),
+      events: [
+          { title: 'event 1', date: '2020-11-05' },
+          { title: 'event 2', date: '2020-06-30' }
+        ]
+    };
+  }
+
+
   onSubmit() {
     this.submitted = true;
     this.addEventForm.controls['title'].setValidators([Validators.required]);
@@ -32,20 +45,13 @@ export class AppComponent {
     }
   }
 
-  ngOnInit() {
-    this.calendarOptions = {
-        initialView: 'dayGridMonth',
-        dateClick: this.handleDateClick.bind(this),
-      events: [
-        { title: 'event 1', date: '2020-11-05' },
-        { title: 'event 2', date: '2020-06-30' }
-      ]
-    };
+  //Show Modal with Forn on dayClick Event
+  handleEventClick(arg: any){
+    console.log('HANDLE EVENT CLICKED');
   }
 
-  //Show Modal with Forn on dayClick Event
-  handleDateClick(arg: any) {
-    console.log('args = ', arg);
+  handleDateClick(date: { dateStr: string; }) {
+    console.log('DATE EVENT CLICKED = ', date);
   }
 
   //Hide Modal PopUp and clear the form validations
