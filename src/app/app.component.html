@@ -1,7 +1,34 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <full-calendar [options]="calendarOptions"></full-calendar>
-    </div>
-  </div>
+<div class="main">
+  <mat-card class="content">
+    <mat-card-header>
+      <mat-card-title class="title">Add mission</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="missionForm">
+        <div>
+          <input type="text" formControlName="title"placeholder="Title">
+        </div>
+        <div>
+          <input type="text" formControlName="description" placeholder="Description">
+        </div>
+        <div>
+          <select formControlName="color">
+            <option value="#FF5722">red</option>
+            <option value="aqua">aqua</option>
+            <option value="yellow">yellow</option>
+          </select>
+        </div>
+        <div>
+          <input type="date" formControlName="date">
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="actions">
+      <button mat-raised-button color="primary" (click)="addMission()">Enregistrer</button>
+    </mat-card-actions>
+  </mat-card>
 </div>
+<div class="container">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+

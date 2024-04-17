@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CalendarOptions, EventInput } from '@fullcalendar/angular';
 import { MissionService } from './services/mission/mission.service';
 import { Mission } from './models/mission';
-
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ModalmissionComponent } from './components/modalmission/modalmission.component';
+import { MatCardModule } from '@angular/material/card';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
-  event: Mission[] = []
+  missionForm: FormGroup;
   /* Add Event Form */
-  addEventForm = this.fb.group({
+  addEventForm = this.formBuilder.group({
     title: ['', [Validators.required]]
   });
   submitted = false;
@@ -22,39 +24,52 @@ export class AppComponent implements OnInit {
 
   get f() { return this.addEventForm.controls; }
 
-  constructor(private fb: FormBuilder, private missionServce: MissionService){}
+  constructor(
+    private missionServce: MissionService,
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef
+    ){
+      this.missionForm = this.formBuilder.group({
+        id: [4], 
+        title: ['', Validators.required],
+        description: ['', Validators.required],
+        color: ['', Validators.required],
+        date: ['', Validators.required]
+      });
+    }
 
 
   ngOnInit() {
-    this.missionServce.getMissions().subscribe((res) => {
-      console.log('res ', res)
-      this.event = res
-      
-      console.log('z ', this.event)
-      this.calendarOptions = {
-        initialView: 'dayGridMonth',
-        dateClick: this.handleDateClick.bind(this),
-        eventClick: this.handleEventClick.bind(this),
-        // events: [
-          //     { title: 'event 1',   start: '2024-04-14T10:00:00', // Start date and time
-          //     end: '2024-04-14T12:00:00', color: 'red' },
-          //     { title: 'event 2', date: '2024-04-30', color: 'yellow' }
-          //   ]
-          events: this.event,
-          eventMouseEnter: this.eventMouseEnter.bind(this)
-
-        };
-      })
+     this.loadMissions();
   }
+
+  
 
   eventMouseEnter(info: any) {
     const description = info.event.extendedProps.description;
-    console.log('errze ', description);
+    // console.log('errze ', description);
     
     if (description) {
       const element = info.el;
       element.setAttribute('data-description', description);
     }
+  }
+
+  loadMissions() {
+    this.missionServce.getMissions();
+    this.missionServce.missions$.subscribe(missions => {
+      this.updateCalendarEvents(missions);
+    });
+  }
+
+  updateCalendarEvents(missions: Mission[]) {
+    this.calendarOptions = {
+      initialView: 'dayGridMonth',
+      dateClick: this.handleDateClick.bind(this),
+      eventClick: this.handleEventClick.bind(this),
+      events: missions,
+      eventMouseEnter: this.eventMouseEnter.bind(this)
+    };
   }
 
   onSubmit() {
@@ -64,6 +79,12 @@ export class AppComponent implements OnInit {
     if (this.addEventForm.invalid) {
         return;
     }
+  }
+
+  addMission() {
+    const formData = this.missionForm.value;
+    this.missionServce.addMission(formData);
+    console.log('add ', formData);
   }
 
   //Show Modal with Forn on dayClick Event
