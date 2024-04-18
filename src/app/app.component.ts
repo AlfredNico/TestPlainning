@@ -7,7 +7,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ModalmissionComponent } from './components/modalmission/modalmission.component';
 import { MatCardModule } from '@angular/material/card';
 import { ChangeDetectorRef } from '@angular/core';
-import Tooltip from 'tooltip.js';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 // import { CalendarComponent } from 'angular-fullcalendar';
@@ -162,16 +161,6 @@ export class AppComponent implements OnInit {
       color: '',
       date: date.dateStr
     })
-  }
-
-  onEventRender(info: any) {
-    console.log('onEventRender', info.el);
-    const tooltip = new Tooltip(info.el, {
-      title: info.event.title,
-      placement: 'top-end',
-      trigger: 'hover',
-      container: 'body'
-    });
   }
 
 }
