@@ -20,7 +20,7 @@
     text-align: center;
   }
 
-  
+
   select, input {
     width: 40vw;
     height: 2.5rem;
@@ -30,3 +30,29 @@
     padding: 0 2rem;
   }
 }
+
+
+
+.bottom-arrow {
+  position:relative;
+  background-color:#e15915;
+  height:320px !important;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+.bottom-arrow:after,
+.bottom-arrow:after {
+  z-index: -1;
+  position: absolute;
+  top: 98.1%;
+  left: 70%;
+  margin-left: -25%;
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: solid 50px #e15915;
+  border-left: solid 50px transparent;
+  border-right: solid 50px transparent;
+}
+

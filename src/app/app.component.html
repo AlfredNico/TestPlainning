@@ -1,34 +1,92 @@
-<div class="main">
-  <mat-card class="content">
-    <mat-card-header>
-      <mat-card-title class="title">Add mission</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="missionForm">
-        <div>
-          <input type="text" formControlName="title"placeholder="Title">
-        </div>
-        <div>
-          <input type="text" formControlName="description" placeholder="Description">
-        </div>
-        <div>
-          <select formControlName="color">
-            <option value="#FF5722">red</option>
-            <option value="aqua">aqua</option>
-            <option value="yellow">yellow</option>
-          </select>
-        </div>
-        <div>
-          <input type="date" formControlName="date">
-        </div>
-      </form>
-    </mat-card-content>
-    <mat-card-actions class="actions">
-      <button mat-raised-button color="primary" (click)="addMission()">Enregistrer</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
 <div class="container">
-  <full-calendar [options]="calendarOptions"></full-calendar>
-</div>
+  <div class="main pb-4">
+    <mat-card class="content">
+      <mat-card-header>
+        <mat-card-title class="title">Add mission</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="missionForm">
+          <div>
+            <input type="text" formControlName="title" placeholder="Title" required [ngClass]="{'form-control is-invalid': title.invalid && (title.dirty || title.touched)}">
+            <div *ngIf="title.invalid && (title.dirty || title.touched)">
+              <div *ngIf="title.errors?.['required']" class="text-danger">
+                Titre requis.
+              </div>
+            </div>
+          </div>
+          <div>
+            <input type="text" formControlName="description" placeholder="Description" required [ngClass]="{'form-control is-invalid': description.invalid && (description.dirty || description.touched)}">
+            <div *ngIf="description.invalid && (description.dirty || description.touched)">
+              <div *ngIf="description.errors?.['required']" class="text-danger">
+                Description requis.
+              </div>
+            </div>
+          </div>
+          <div>
+            <select formControlName="color" required [ngClass]="{'form-control is-invalid': color.invalid && (color.dirty || color.touched)}">
+              <option value="" selected readonly disabled>Selection équipe attribué</option>
+              <option value="#FF5722">Équipe 1 (Orange)</option>
+              <option value="#2196F3">Équipe 2 (Bleu)</option>
+              <option value="#FFC107">Équipe 3 (Jaune)</option>
+              <option value="#795548">Équipe 4 (Rouge)</option>
+              <option value="#9C27B0">Équipe 5 (Violet)</option>
+            </select>
+            <div *ngIf="color.invalid && (color.dirty || color.touched)">
+              <div *ngIf="color.errors?.['required']" class="text-danger">
+                Couleur requis.
+              </div>
+            </div>
+          </div>
+          <div>
+            <input type="date" formControlName="date" required [ngClass]="{'form-control is-invalid': date.invalid && (date.dirty || date.touched)}">
+            <div *ngIf="date.invalid && (date.dirty || date.touched)">
+              <div *ngIf="date.errors?.['required']" class="text-danger">
+                Date requis.
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions class="actions">
+        <button mat-raised-button color="primary" (click)="addMission()" [disabled]="missionForm.invalid">Enregistrer</button>
+        <button mat-raised-button color="warn" (click)="removeMission()" [disabled]="id.value == '' || id.value == null">Supprimer</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="row w-100">
+    <div class="col-4">
+     <div class="card p-3">
+        <div class="card-header">
+          Liste des équipes
+        </div>
+        <div class="card-body">
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let team of teamsList" (opened)="true" (closed)="false">
+              <mat-expansion-panel-header [style.background-color]="team.color">
+                <mat-panel-title> {{ team.name }}  </mat-panel-title>
+              </mat-expansion-panel-header>
 
+              <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let emp of team.employees">
+                  <img [src]="'assets/images/' + emp.avatar" alt="" width="50" height="50">
+                  <span class="mx-4"> {{ emp.name }} </span>
+                </mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+     </div>
+    </div>
+    <div class="col-8">
+      <div class="card p-4">
+        <full-calendar
+          #fullcalendar
+          deepChangeDetection="true"
+          editable="true"
+          [options]="calendarOptions"
+          (eventRender)="onEventRender($event)">
+        </full-calendar>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,8 +11,8 @@ export class MissionService {
   private missionsSubject: BehaviorSubject<Mission[]> = new BehaviorSubject<Mission[]>([]);
   public missions$: Observable<Mission[]> = this.missionsSubject.asObservable();
 
-  constructor(private http: HttpClient) { 
-    
+  constructor(private http: HttpClient) {
+
   }
 
   getMissions(): void {
@@ -23,13 +23,17 @@ export class MissionService {
     ).subscribe();
   }
 
-  addMission(mission: Mission): void {
-    const missions = this.missionsSubject.getValue();
-    missions.push(mission);
+  addMission(mission: Mission, action: string): void {
+
+    let missions = this.missionsSubject.getValue();
+    if (action == 'add') {
+      missions.push({...mission, id: missions.length + 1});
+    } else if(action == 'edit') {
+      const index = missions.findIndex(x => x.id == mission.id);
+      missions[index] = {...mission};
+    } else if(action == 'remove') {
+      missions = missions.filter(x => x.id != mission.id);
+    }
     this.missionsSubject.next(missions);
   }
-
-  // addMission(value: Mission[]) {
-  //   this.missions.next(value)
-  // }
 }

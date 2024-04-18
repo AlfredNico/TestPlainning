@@ -15,6 +15,10 @@ import { ModalmissionComponent } from './components/modalmission/modalmission.co
 import { MatCardModule } from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatListModule} from '@angular/material/list';
+
+
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   interactionPlugin
@@ -35,7 +39,9 @@ FullCalendarModule.registerPlugins([
     BrowserAnimationsModule,
     MatCardModule,
     MatFormFieldModule,
-    MatButtonModule
+    MatButtonModule,
+    MatExpansionModule,
+    MatListModule
   ],
   providers: [
     {
