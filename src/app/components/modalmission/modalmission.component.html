@@ -1,3 +1,49 @@
-<!-- <mat-dialog-content>
-    <h1>hello</h1>
-</mat-dialog-content> -->
+<!-- <h2 mat-dialog-title>Add missionr</h2>
+<mat-dialog-content class="mat-typography">
+  <form class="w-100" [formGroup]="missionForm">
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Titre</mat-label>
+      <input matInput [formControl]="title" placeholder="Title" required>
+      <mat-error *ngIf="title.invalid && (title.dirty || title.touched) && title.errors?.['required']">
+        Titre requis.
+      </mat-error>
+    </mat-form-field> -->
+
+    <!-- <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Description</mat-label>
+      <textarea matInput [formControl]="description" placeholder="Description" required>
+      <mat-error *ngIf="description.invalid && (description.dirty || description.touched) && description.errors?.['required']">
+        Description requis.
+      </mat-error>
+    </mat-form-field> -->
+
+    <!-- <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Selection équipe</mat-label>
+      <mat-select [formControl]="color">
+        <mat-option value="" selected readonly disabled>Selection équipe attribué</mat-option>
+        <mat-option value="#FF5722">Équipe 1 (Orange)</mat-option>
+        <mat-option value="#2196F3">Équipe 2 (Bleu)</mat-option>
+        <mat-option value="#FFC107">Équipe 3 (Jaune)</mat-option>
+        <mat-option value="#795548">Équipe 4 (Rouge)</mat-option>
+        <mat-option value="#9C27B0">Équipe 5 (Violet)</mat-option>
+      </mat-select>
+      <mat-error *ngIf="color.invalid && (color.dirty || color.touched) && color.errors?.['required']">
+        Titre requis.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Date de mission</mat-label>
+      <input matInput [formControl]="date" required>
+      <mat-error *ngIf="date.invalid && (date.dirty || date.touched) && date.errors?.['required']">
+        Titre requis.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn"[mat-dialog-close]="true" cdkFocusInitial>Supprimer</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Ajouter</button>
+  <button mat-raised-button mat-dialog-close>Annuler</button>
+</mat-dialog-actions>
+ -->

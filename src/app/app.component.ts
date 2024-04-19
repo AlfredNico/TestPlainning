@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CalendarOptions, EventInput } from '@fullcalendar/angular';
 import { MissionService } from './services/mission/mission.service';
@@ -9,6 +9,8 @@ import { MatCardModule } from '@angular/material/card';
 import { ChangeDetectorRef } from '@angular/core';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
 // import { CalendarComponent } from 'angular-fullcalendar';
 
 
@@ -26,20 +28,20 @@ const TEAMS_LIST = [
     ]
   }, {
     name: 'Team 3', color: '#FFC107', employees: [
-      { name: 'employee 6', avatar: 'emp4.jpeg' },
-      { name: 'employee 7', avatar: 'emp5.jpeg' },
+      { name: 'employee 6', avatar: 'emp6.jpeg' },
+      { name: 'employee 7', avatar: 'emp7.jpeg' },
     ]
   }, {
     name: 'Team 4', color: '#795548', employees: [
-      { name: 'employee 8', avatar: 'emp4.jpeg' },
+      { name: 'employee 8', avatar: 'emp8.jpeg' },
     ]
   }
   , {
     name: 'Team 5', color: '#9C27B0', employees: [
-      { name: 'employee 10', avatar: 'emp4.jpeg' },
-      { name: 'employee 11', avatar: 'emp5.jpeg' },
-      { name: 'employee 12', avatar: 'emp5.jpeg' },
-      { name: 'employee 13', avatar: 'emp5.jpeg' },
+      { name: 'employee 10', avatar: 'emp9.jpeg' },
+      { name: 'employee 11', avatar: 'emp10.jpeg' },
+      { name: 'employee 12', avatar: 'emp11.jpeg' },
+      { name: 'employee 13', avatar: 'emp12.jpeg' },
     ]
   }
 ]
@@ -51,6 +53,7 @@ const TEAMS_LIST = [
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  @ViewChild("content") modalContent!: TemplateRef<any>;
   missionForm = this.fb.group({
     id: '',
     title: ['', Validators.required],
@@ -58,6 +61,9 @@ export class AppComponent implements OnInit {
     color: ['', Validators.required],
     date: ['', Validators.required]
   });
+  modalRef!: any;
+
+
   submitted = false;
   calendarOptions!: CalendarOptions;
   teamsList = TEAMS_LIST;
@@ -84,7 +90,9 @@ export class AppComponent implements OnInit {
   constructor(
     private missionServce: MissionService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    // public dialog: MatDialog,
+    private modal: NgbModal
     ){ }
 
 
@@ -133,12 +141,14 @@ export class AppComponent implements OnInit {
     }
     const formData = this.missionForm.value;
     this.missionServce.addMission(formData, actionType);
+    this.modalRef.close();
   }
 
   removeMission() {
     const actionType = 'remove';
     this.missionServce.addMission(this.missionForm.value, actionType);
     this.missionForm.reset();
+    this.modalRef.close();
   }
 
 
@@ -147,10 +157,14 @@ export class AppComponent implements OnInit {
     this.missionForm.patchValue({
       id: data.id,
       title: data.title,
-      description: [data.extendedProps['description']],
+      description: data.extendedProps['description'],
       color: data.borderColor,
       date: data.startStr
-    })
+    });
+    // .result.then((result) => {},
+		// 	(reason) => {},
+		// );
+    this.modalRef = this.modal.open(this.modalContent, { backdrop : 'static', keyboard : false });
   }
 
   handleDateClick(date: { dateStr: string; }) {
@@ -160,7 +174,8 @@ export class AppComponent implements OnInit {
       description: '',
       color: '',
       date: date.dateStr
-    })
+    });
+    this.modalRef = this.modal.open(this.modalContent, { backdrop : 'static', keyboard : false });
   }
 
 }

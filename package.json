@@ -23,6 +23,7 @@
     "@fullcalendar/angular": "^5.11.5",
     "@fullcalendar/daygrid": "^5.11.5",
     "@fullcalendar/interaction": "^5.11.5",
+    "@ng-bootstrap/ng-bootstrap": "^12.1.2",
     "bootstrap": "^5.3.3",
     "rxjs": "~7.5.0",
     "tippy.js": "^6.3.7",

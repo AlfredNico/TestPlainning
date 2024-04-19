@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpUrlInterceptor } from './interceptors/http-url.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +17,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatListModule} from '@angular/material/list';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatToolbarModule} from '@angular/material/toolbar';
+
 
 
 FullCalendarModule.registerPlugins([
@@ -35,13 +38,16 @@ FullCalendarModule.registerPlugins([
     AppRoutingModule,
     FullCalendarModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatCardModule,
     MatFormFieldModule,
     MatButtonModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    MatToolbarModule,
+    NgbModule
   ],
   providers: [
     {
